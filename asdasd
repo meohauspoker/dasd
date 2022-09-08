@@ -1,0 +1,35 @@
+zabbix_export:
+  version: '6.0'
+  date: '2022-09-08T18:14:11Z'
+  groups:
+    -
+      uuid: 98b4a243cfa34f84b2cd078e23f87d7a
+      name: Template/EventViewer
+  templates:
+    -
+      uuid: 557f8ff070c04eb584aadb3ab978da2a
+      template: 'AAAAAAA eventviwer DLN EXAMPLE'
+      name: 'AAAAAAA eventviwer DLN EXAMPLE'
+      groups:
+        -
+          name: Template/EventViewer
+      items:
+        -
+          uuid: ab0798bdaf8a4296a4203abeacfdc2f5
+          name: 'Log:name Regex:<regexp> Severity:<severity> Application:<source> EventID:<eventid>'
+          type: ZABBIX_ACTIVE
+          key: 'eventlog[name,<regexp>,<severity>,<source>,<eventid>,{$EVENTVIEWER_MAXLINES},skip]'
+          delay: '{$EVENTVIEWER_UPDATE_INTERVAL}'
+          trends: '0'
+          value_type: LOG
+          tags:
+            -
+              tag: Application
+              value: EventViewer
+          triggers:
+            -
+              uuid: 9293c509f26d4d069a7c42164c522f81
+              expression: 'length(last(/AAAAAAA eventviwer DLN EXAMPLE/eventlog[name,<regexp>,<severity>,<source>,<eventid>,{$EVENTVIEWER_MAXLINES},skip]))>=1'
+              name: 'EventViewer Log:system Regex: Severity:Critical Application:CorpData EventID:^75$'
+              priority: AVERAGE
+              manual_close: 'YES'
